@@ -64,9 +64,11 @@ class App:
     # ── Layout ────────────────────────────────────────────────────────────────
 
     def _pane(self, col, label_text):
+        # col here is the logical pane index (0=left, 1=right)
+        # actual grid column: left=0, right=2 (col 1 is the separator)
+        grid_col = col * 2
         f = tk.Frame(self.root, bg='#252526')
-        f.grid(row=1, column=col, sticky='nsew',
-               padx=(8 if col == 0 else 0, 0 if col == 0 else 8), pady=(0, 8))
+        f.grid(row=1, column=grid_col, sticky='nsew', padx=8, pady=(0, 8))
         f.rowconfigure(1, weight=1)
         f.columnconfigure(0, weight=1)
         lbl = tk.Label(f, text=label_text, anchor='w',
@@ -87,12 +89,13 @@ class App:
 
     def _layout(self):
         self.root.rowconfigure(1, weight=1)
-        self.root.columnconfigure(0, weight=1)
-        self.root.columnconfigure(1, weight=1)
+        self.root.columnconfigure(0, weight=1)   # left pane
+        self.root.columnconfigure(1, weight=0, minsize=1)  # separator
+        self.root.columnconfigure(2, weight=1)   # right pane
 
-        # Toolbar row
+        # Toolbar
         toolbar = tk.Frame(self.root, bg='#333333', height=36)
-        toolbar.grid(row=0, column=0, columnspan=2, sticky='ew')
+        toolbar.grid(row=0, column=0, columnspan=3, sticky='ew')
         toolbar.grid_propagate(False)
         tk.Label(toolbar, text='BASIC Live', font=('Menlo', 12, 'bold'),
                  bg='#333333', fg='#ffffff').pack(side='left', padx=12, pady=6)
@@ -101,10 +104,8 @@ class App:
                   activebackground='#1177bb', activeforeground='white',
                   relief='flat', padx=10, pady=2).pack(side='right', padx=8, pady=4)
 
-        # Separator between panes
-        sep = tk.Frame(self.root, bg='#3c3c3c', width=1)
-        sep.grid(row=1, column=0, columnspan=2, sticky='ns',
-                 padx=(self.root.winfo_reqwidth() // 2, 0))
+        # Separator
+        tk.Frame(self.root, bg='#3c3c3c').grid(row=1, column=1, sticky='ns')
 
         ef, _   = self._pane(0, 'BASIC — write code here')
         of, lbl = self._pane(1, 'Output')
@@ -116,9 +117,10 @@ class App:
         self.root.geometry('1200x740')
 
         # Pre-load fibonacci example
-        example = open(os.path.join(os.path.dirname(__file__),
-                       'compiler', 'examples', 'fibonacci.bas')).read()
-        self.editor.insert('1.0', example)
+        example_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                    'compiler', 'examples', 'fibonacci.bas')
+        with open(example_path) as f:
+            self.editor.insert('1.0', f.read())
         self._highlight()
         self.root.after(100, self._run)
 
