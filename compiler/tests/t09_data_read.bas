@@ -1,0 +1,15 @@
+DATA 10, 20, 30
+DATA "alpha", "beta"
+DIM n AS FLOAT
+DIM w$ AS STRING
+READ n
+PRINT n
+READ n
+PRINT n
+READ n
+PRINT n
+READ w$
+PRINT w$
+RESTORE
+READ n
+PRINT n

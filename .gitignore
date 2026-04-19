@@ -1,0 +1,6 @@
+demo
+*.o
+.DS_Store
+.vscode/
+.idea/
+*.iml

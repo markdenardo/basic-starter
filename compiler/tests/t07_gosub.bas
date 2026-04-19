@@ -1,0 +1,6 @@
+PRINT "start"
+GOSUB 100
+PRINT "end"
+END
+100 PRINT "sub"
+110 RETURN
