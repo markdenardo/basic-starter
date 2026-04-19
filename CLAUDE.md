@@ -4,11 +4,22 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Projects
 
-Two independent tools share this repo:
+Three tools share this repo:
 
-1. **Demoscene template** (`src/`) — FreeBASIC demo with scene sequencer and effects
-2. **BASIC compiler** (`compiler/`) — Python 3 compiler: BASIC → C99 (zero dependencies)
-3. **Reference docs** (`docs/`) — TI-99/4A BASIC one-page guide
+1. **Live coding tool** (`live.py`) — tkinter GUI: write BASIC, auto-runs on keypress via `basicc.py -r`
+2. **Demoscene template** (`src/`) — FreeBASIC demo with scene sequencer and effects
+3. **BASIC compiler** (`compiler/`) — Python 3 compiler: BASIC → C99 (zero dependencies)
+4. **Reference docs** (`docs/`) — TI-99/4A BASIC one-page guide
+
+---
+
+## Live Coding Tool (`live.py`)
+
+```bash
+python3 live.py
+```
+
+Single-file tkinter app (stdlib only). Pipes editor contents to a temp `.bas` file, runs `basicc.py -r`, displays stdout in the right pane. Debounce: 600ms after last keypress (`DEBOUNCE_MS` constant). Syntax highlighting uses `tag_configure` / `tag_add` on the `Text` widget — tags applied per line on every `<KeyRelease>`. File I/O via `tkinter.filedialog`. Error state: output label turns red (`#f44747`) when `returncode != 0`.
 
 ---
 

@@ -1,9 +1,39 @@
 # basic-starter
 
-Two independent retro-computing tools in one repo:
+Three tools in one repo:
 
-1. **Demoscene template** — a FreeBASIC demo with scene sequencer and visual effects
-2. **BASIC compiler** — a Python 3 compiler that translates a BASIC dialect to C99 (zero dependencies)
+1. **Live coding tool** (`live.py`) — write BASIC in a GUI, see output instantly
+2. **Demoscene template** (`src/`) — a FreeBASIC demo with scene sequencer and visual effects
+3. **BASIC compiler** (`compiler/`) — a Python 3 compiler that translates a BASIC dialect to C99 (zero dependencies)
+
+---
+
+## Live Coding Tool
+
+`live.py` — a split-pane GUI for writing and running BASIC instantly. No extra dependencies (uses Python's built-in `tkinter`).
+
+### Run
+
+```bash
+python3 live.py
+```
+
+### Features
+
+- **Auto-run**: code executes 600ms after you stop typing — no button needed
+- **Syntax highlighting**: keywords, built-ins, strings, comments, line numbers, numeric literals
+- **File I/O**: Open / Save / Save As via menu or keyboard shortcuts
+
+### Keyboard shortcuts
+
+| Shortcut | Action |
+|---|---|
+| `Ctrl+R` / `Cmd+R` | Run now |
+| `Ctrl+O` / `Cmd+O` | Open file |
+| `Ctrl+S` / `Cmd+S` | Save |
+| `Ctrl+Shift+S` / `Cmd+Shift+S` | Save As |
+
+The right pane shows stdout. If the compiler or program errors, the **Output** label turns red and stderr is shown below the output.
 
 ---
 
