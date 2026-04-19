@@ -4,3 +4,4 @@ demo
 .vscode/
 .idea/
 *.iml
+.claude/

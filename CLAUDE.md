@@ -42,7 +42,7 @@ make run      # compile and launch
 
 ### Commands
 ```bash
-make test                                          # run test suite (10 tests)
+make test                                          # run test suite (20 tests)
 python3 compiler/basicc.py source.bas             # print C to stdout
 python3 compiler/basicc.py source.bas -o out.c   # write C file
 python3 compiler/basicc.py source.bas -r          # compile and run (needs gcc)
@@ -84,10 +84,12 @@ Line numbers are optional except as targets for `GOTO`/`GOSUB`.
 
 ### Test suite
 ```bash
-make test                                  # run all 10 tests
-python3 compiler/tests/run_tests.py t05   # run matching tests
+make test                                  # run all 20 tests
+python3 compiler/tests/run_tests.py t05   # run tests matching pattern
 ```
-Tests live in `compiler/tests/tNN_name.bas` + `tNN_name.expected`. Add a new test by creating the `.bas` file and running once to generate the `.expected` file.
+Tests live in `compiler/tests/tNN_name.bas` + `tNN_name.expected`. To add a test: write the `.bas` file, run it once with `-r` to verify output, then redirect that output to `.expected`.
+
+Current coverage: PRINT/suppress, arithmetic, variables, IF/ELSE, FOR/NEXT, WHILE, GOSUB, strings, DATA/READ/RESTORE, math functions, logical operators, nested loops, GOTO, float STEP, multi-subroutine, nested IF, compound WHILE, integration.
 
 ---
 
