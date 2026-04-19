@@ -46,8 +46,11 @@ make test                                          # run test suite (20 tests)
 python3 compiler/basicc.py source.bas             # print C to stdout
 python3 compiler/basicc.py source.bas -o out.c   # write C file
 python3 compiler/basicc.py source.bas -r          # compile and run (needs gcc)
-make bas-run FILE=compiler/examples/fibonacci.bas
+make bas-run FILE=compiler/examples/fibonacci.bas  # compile and run shorthand
+make bas-to-c FILE=compiler/examples/fibonacci.bas # emit .c file shorthand
 ```
+
+Examples live in `compiler/examples/`: `hello.bas`, `fibonacci.bas`, `plasma_gen.bas`, and chapter walkthroughs (`ch1_intro.bas` … `ch7_programs.bas`).
 
 ### Supported BASIC syntax
 ```
@@ -95,3 +98,5 @@ Current coverage: PRINT/suppress, arithmetic, variables, IF/ELSE, FOR/NEXT, WHIL
 
 ## Reference
 `docs/ti_basic_guide.md` — one-page TI-99/4A BASIC cheat sheet (variables, operators, PRINT, INPUT, IF, loops, DATA, strings, math, CALL commands, colours, sound, screen layout).
+
+`README.md` — user-facing project overview with usage, architecture, and examples (rendered on GitHub).
