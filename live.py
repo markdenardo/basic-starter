@@ -64,14 +64,14 @@ class App:
     # ── Layout ────────────────────────────────────────────────────────────────
 
     def _pane(self, col, label_text):
-        f = tk.Frame(self.root, bg='#1e1e1e')
-        f.grid(row=0, column=col, sticky='nsew',
-               padx=(10 if col == 0 else 4, 4 if col == 0 else 10), pady=10)
+        f = tk.Frame(self.root, bg='#252526')
+        f.grid(row=1, column=col, sticky='nsew',
+               padx=(8 if col == 0 else 0, 0 if col == 0 else 8), pady=(0, 8))
         f.rowconfigure(1, weight=1)
         f.columnconfigure(0, weight=1)
         lbl = tk.Label(f, text=label_text, anchor='w',
-                       font=('Menlo', 11, 'bold'), bg='#1e1e1e', fg='#858585')
-        lbl.grid(row=0, column=0, sticky='w', pady=(0, 4))
+                       font=('Menlo', 11, 'bold'), bg='#252526', fg='#cccccc')
+        lbl.grid(row=0, column=0, sticky='w', padx=8, pady=(6, 4))
         return f, lbl
 
     def _text_widget(self, parent, row, **kw):
@@ -80,24 +80,47 @@ class App:
                     selectbackground='#264f78', relief='flat',
                     borderwidth=0, padx=10, pady=8, **kw)
         t.grid(row=row, column=0, sticky='nsew')
-        sb = tk.Scrollbar(parent, command=t.yview, bg='#2d2d2d')
+        sb = tk.Scrollbar(parent, command=t.yview, bg='#3c3c3c', troughcolor='#252526')
         sb.grid(row=row, column=1, sticky='ns')
         t.configure(yscrollcommand=sb.set)
         return t
 
     def _layout(self):
-        self.root.rowconfigure(0, weight=1)
+        self.root.rowconfigure(1, weight=1)
         self.root.columnconfigure(0, weight=1)
         self.root.columnconfigure(1, weight=1)
 
-        ef, _    = self._pane(0, 'BASIC')
-        of, lbl  = self._pane(1, 'Output')
+        # Toolbar row
+        toolbar = tk.Frame(self.root, bg='#333333', height=36)
+        toolbar.grid(row=0, column=0, columnspan=2, sticky='ew')
+        toolbar.grid_propagate(False)
+        tk.Label(toolbar, text='BASIC Live', font=('Menlo', 12, 'bold'),
+                 bg='#333333', fg='#ffffff').pack(side='left', padx=12, pady=6)
+        tk.Button(toolbar, text='▶  Run', command=self._run,
+                  font=('Menlo', 11), bg='#0e639c', fg='white',
+                  activebackground='#1177bb', activeforeground='white',
+                  relief='flat', padx=10, pady=2).pack(side='right', padx=8, pady=4)
+
+        # Separator between panes
+        sep = tk.Frame(self.root, bg='#3c3c3c', width=1)
+        sep.grid(row=1, column=0, columnspan=2, sticky='ns',
+                 padx=(self.root.winfo_reqwidth() // 2, 0))
+
+        ef, _   = self._pane(0, 'BASIC — write code here')
+        of, lbl = self._pane(1, 'Output')
         self._out_label = lbl
 
         self.editor = self._text_widget(ef, 1, undo=True)
         self.output = self._text_widget(of, 1, state='disabled')
         self.output.configure(fg='#9cdcfe')
-        self.root.geometry('1200x720')
+        self.root.geometry('1200x740')
+
+        # Pre-load fibonacci example
+        example = open(os.path.join(os.path.dirname(__file__),
+                       'compiler', 'examples', 'fibonacci.bas')).read()
+        self.editor.insert('1.0', example)
+        self._highlight()
+        self.root.after(100, self._run)
 
     # ── Syntax highlighting ───────────────────────────────────────────────────
 
